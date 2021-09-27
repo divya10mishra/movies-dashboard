@@ -1,6 +1,6 @@
  <template>
-<modal>
- <div class="deatils-poster">
+
+ <div class="deatils-poster" v-if="showDetails">
         <div>
           <span class="input-title">Type:</span>
          <span></span>
@@ -14,14 +14,17 @@
          <span></span>
         </div>
 </div>
-</modal>
+
 </template>
 
 <script>
 export default {
   name: "ShowDetail",
   props: {
-    
+    showDetails:{
+       type: Boolean,
+       default: false
+    }
   },
   }
 </script>

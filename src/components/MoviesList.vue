@@ -1,20 +1,19 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <h1>{{ this.test }}</h1>
     <div class="movie-bar">
       <span class="movie-poster">
         <img
           v-on:click="showdetail"
-          src="https://m.media-amazon.com/images/M/MV5BNjQ3NWNlNmQtMTE5ZS00MDdmLTlkZjUtZTBlM2UxMGFiMTU3XkEyXkFqcGdeQXVyNjUwNzk3NDc@._V1_SX300.jpg"
+          src={{this.arrData[0].Poster}}
         />
-       <ShowDetail/>
+       <ShowDetail :showDetails="showDetails"/>
       </span>
-      
-      <div>Title</div>
+        <div>{{this.arrData[0].Title}}</div>
     </div>
     <div>
-      <button id="show-modal" v-on:click="addMovie" :isVisible="false" >Add Movie</button>
-      <AddMovie />
+      <button id="show-modal" v-on:click="addMovie">Add Movie</button>
+      <AddMovie :isVisible="isVisible" />
     </div>
     
   </div>
@@ -22,7 +21,6 @@
 
 <script>
 import axios from "axios";
-import { mapState } from 'vuex';
 import ShowDetail from "./ShowDetail.vue";
 import AddMovie from "./AddMovie.vue";
 // import VModal from 'vue-js-modal';
@@ -30,7 +28,9 @@ import AddMovie from "./AddMovie.vue";
 export default {
   data () {
     return {
-       // This value is set to the value emitted by the child
+       isVisible:false,
+       showDetails:false,
+       arrData:[]
     }
   },
   name: "MoviesList",
@@ -44,7 +44,9 @@ export default {
      addMovie:function(){
       console.log("modal",this.isVisible)
        this.isVisible= true;
-    //   this.$emit(this.isVisible);
+     },
+     showdetail:function(){
+       this.showDetails= !this.showDetails;
      }
    },
   mounted() {
@@ -52,22 +54,20 @@ export default {
     axios
       .get("https://www.omdbapi.com/?apikey=e0620bd4&s=harry potter")
       .then((res) => {
-        mapState({
-    
-    countAlias: 'count',
-  }) 
         console.log("res", res.data.Search);
+        this.arrData = res.data.Search;
       });
   },
 
 };
-console.log(mapState['countAlias'])
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .hello {
   color: #7ba993;
+  margin: 50px;
 }
 
 .movie-bar {
