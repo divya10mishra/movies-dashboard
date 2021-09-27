@@ -1,15 +1,15 @@
 <template>
   <div class="hello">
     <h1>{{ this.test }}</h1>
-    <div class="movie-bar">
+    <div  v-for="(item,i) in items" :key=i class="movie-bar">
       <span class="movie-poster">
         <img
           v-on:click="showdetail"
-          src={{this.arrData[0].Poster}}
+          src="{{item.arrData.Poster}}"
         />
        <ShowDetail :showDetails="showDetails"/>
       </span>
-        <div>{{this.arrData[0].Title}}</div>
+        <div>{{item.arrData.Title}}</div>
     </div>
     <div>
       <button id="show-modal" v-on:click="addMovie">Add Movie</button>
@@ -30,7 +30,8 @@ export default {
     return {
        isVisible:false,
        showDetails:false,
-       arrData:[]
+       arrData:[],
+       items:[]
     }
   },
   name: "MoviesList",
